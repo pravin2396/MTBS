@@ -1,20 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
-import {
-  Film,
-  Ticket,
-  UserCheck,
-  Shield,
-  Clock,
-  Sparkles,
-  Calendar,
-  MapPin,
-  Popcorn,
-  Database,
-  RefreshCw,
-  Check,
-} from 'lucide-react';
+import { Film, MapPin } from 'lucide-react';
 
 const FEATURED_MOVIES = [
   {
@@ -51,22 +38,6 @@ const FEATURED_MOVIES = [
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const [rawStorage, setRawStorage] = useState({});
-
-  const refreshStorage = () => {
-    setRawStorage({
-      user: localStorage.getItem('user'),
-      currentUser: localStorage.getItem('currentUser'),
-      userInformation: localStorage.getItem('userInformation'),
-      users: localStorage.getItem('users'),
-      isLoggedIn: localStorage.getItem('isLoggedIn'),
-      token: localStorage.getItem('token'),
-    });
-  };
-
-  useEffect(() => {
-    refreshStorage();
-  }, [user]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-gray-100 flex flex-col font-sans">
@@ -83,140 +54,6 @@ const Dashboard = () => {
 
           <div className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:block opacity-10 pointer-events-none">
             <Film className="h-96 w-96 text-white" />
-          </div>
-        </section>
-
-        {/* User LocalStorage Profile Card */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="rounded-2xl bg-slate-900/60 border border-white/10 p-6 backdrop-blur-sm space-y-4">
-            <div className="flex items-center gap-3 text-rose-400">
-              <UserCheck className="h-5 w-5" />
-              <h2 className="text-base font-bold text-white uppercase tracking-wider">
-                User Information
-              </h2>
-            </div>
-            <div className="space-y-2.5 text-xs">
-              <div className="flex justify-between py-1.5 border-b border-white/5">
-                <span className="text-gray-400">Full Name</span>
-                <span className="font-semibold text-white">{user?.name}</span>
-              </div>
-              <div className="flex justify-between py-1.5 border-b border-white/5">
-                <span className="text-gray-400">Email Address</span>
-                <span className="font-semibold text-white">{user?.email}</span>
-              </div>
-              <div className="flex justify-between py-1.5 border-b border-white/5">
-                <span className="text-gray-400">Membership Tier</span>
-                <span className="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-medium">
-                  {user?.role || 'Cinema Member'}
-                </span>
-              </div>
-              <div className="flex justify-between py-1.5">
-                <span className="text-gray-400">Account ID</span>
-                <span className="font-mono text-gray-300">{user?.id}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl bg-slate-900/60 border border-white/10 p-6 backdrop-blur-sm space-y-4">
-            <div className="flex items-center gap-3 text-amber-400">
-              <Database className="h-5 w-5" />
-              <h2 className="text-base font-bold text-white uppercase tracking-wider">
-                Storage Status
-              </h2>
-            </div>
-            <div className="space-y-2.5 text-xs">
-              <div className="flex justify-between py-1.5 border-b border-white/5">
-                <span className="text-gray-400">Storage Medium</span>
-                <span className="font-semibold text-emerald-400">LocalStorage Active</span>
-              </div>
-              <div className="flex justify-between py-1.5 border-b border-white/5">
-                <span className="text-gray-400">Session Token</span>
-                <span className="font-mono text-gray-300 truncate max-w-[150px]">
-                  {user?.token || 'active'}
-                </span>
-              </div>
-              <div className="flex justify-between py-1.5 border-b border-white/5">
-                <span className="text-gray-400">Protected Guard</span>
-                <span className="text-emerald-400 font-semibold">Active & Secured</span>
-              </div>
-              <div className="flex justify-between py-1.5">
-                <span className="text-gray-400">Form Validator</span>
-                <span className="text-white font-medium">React Hook Form</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl bg-slate-900/60 border border-white/10 p-6 backdrop-blur-sm space-y-4">
-            <div className="flex items-center gap-3 text-emerald-400">
-              <Ticket className="h-5 w-5" />
-              <h2 className="text-base font-bold text-white uppercase tracking-wider">
-                Quick Stats
-              </h2>
-            </div>
-            <div className="grid grid-cols-2 gap-3 pt-1">
-              <div className="p-3 rounded-xl bg-white/5 border border-white/5 text-center">
-                <p className="text-2xl font-black text-rose-400">0</p>
-                <p className="text-[11px] text-gray-400 uppercase tracking-wider mt-1">Booked Tickets</p>
-              </div>
-              <div className="p-3 rounded-xl bg-white/5 border border-white/5 text-center">
-                <p className="text-2xl font-black text-amber-400">100</p>
-                <p className="text-[11px] text-gray-400 uppercase tracking-wider mt-1">Reward Points</p>
-              </div>
-            </div>
-            <p className="text-[11px] text-gray-400 text-center">
-              Ready for upcoming ticket booking and seat selection modules!
-            </p>
-          </div>
-        </section>
-
-        {/* Live LocalStorage Data Inspector */}
-        <section className="rounded-2xl bg-slate-900/80 border border-emerald-500/30 p-6 backdrop-blur-md space-y-4 shadow-xl">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
-            <div className="flex items-center gap-2.5">
-              <div className="h-3 w-3 rounded-full bg-emerald-400 animate-ping" />
-              <div className="h-3 w-3 rounded-full bg-emerald-500 -ml-5" />
-              <h2 className="text-base font-bold text-white tracking-wide flex items-center gap-2">
-                <span>LocalStorage Active User Information</span>
-                <span className="text-xs font-normal px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                  Live Browser Storage
-                </span>
-              </h2>
-            </div>
-            <button
-              onClick={refreshStorage}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-gray-300 border border-white/10 transition-colors cursor-pointer self-start sm:self-auto"
-            >
-              <RefreshCw className="h-3.5 w-3.5" />
-              <span>Refresh Storage View</span>
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs font-mono">
-            {/* Key: 'user' */}
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-white/10 space-y-2">
-              <div className="flex items-center justify-between text-emerald-400 font-bold">
-                <span>localStorage.getItem('user')</span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20">JSON Object</span>
-              </div>
-              <pre className="p-3 rounded-lg bg-black/60 text-gray-300 overflow-x-auto text-[11px] leading-relaxed border border-white/5">
-                {rawStorage.user
-                  ? JSON.stringify(JSON.parse(rawStorage.user), null, 2)
-                  : '// No user stored yet'}
-              </pre>
-            </div>
-
-            {/* Key: 'users' */}
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-white/10 space-y-2">
-              <div className="flex items-center justify-between text-rose-400 font-bold">
-                <span>localStorage.getItem('users')</span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-rose-500/20">Registered Users</span>
-              </div>
-              <pre className="p-4 rounded-lg bg-black/60 text-gray-300 overflow-x-auto text-[11px] leading-relaxed border border-white/5 max-h-36">
-                {rawStorage.users
-                  ? JSON.stringify(JSON.parse(rawStorage.users), null, 2)
-                  : '// Empty users array'}
-              </pre>
-            </div>
           </div>
         </section>
 
