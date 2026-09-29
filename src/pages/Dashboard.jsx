@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
@@ -352,7 +353,13 @@ const Dashboard = () => {
                 <Film className="h-5 w-5 text-rose-500" />
                 <h2 className="text-lg font-bold text-white tracking-wide">Now Showing in Theatres</h2>
               </div>
-              <span className="text-xs text-rose-400 font-medium">Currently Screening</span>
+              <Link
+                to="/movies"
+                className="text-xs text-rose-400 hover:text-rose-300 font-medium hover:underline inline-flex items-center gap-1 transition-colors"
+              >
+                <span>Explore Full Catalog</span>
+                <span>&rarr;</span>
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

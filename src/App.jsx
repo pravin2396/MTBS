@@ -9,6 +9,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
+import MovieList from './pages/MovieList';
+import MovieDetail from './pages/MovieDetail';
 
 function App() {
   return (
@@ -46,6 +48,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRoute>
+                <MovieList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/movies/:id"
+            element={
+              <ProtectedRoute>
+                <MovieDetail />
               </ProtectedRoute>
             }
           />
