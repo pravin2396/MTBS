@@ -11,6 +11,8 @@ import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import MovieList from './pages/MovieList';
 import MovieDetail from './pages/MovieDetail';
+import TheatreList from './pages/TheatreList';
+import TheatreDetail from './pages/TheatreDetail';
 
 function App() {
   return (
@@ -64,6 +66,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <MovieDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/theatres"
+            element={
+              <ProtectedRoute>
+                <TheatreList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/theatres/:id"
+            element={
+              <ProtectedRoute>
+                <TheatreDetail />
               </ProtectedRoute>
             }
           />
