@@ -13,6 +13,7 @@ import MovieList from './pages/MovieList';
 import MovieDetail from './pages/MovieDetail';
 import TheatreList from './pages/TheatreList';
 import TheatreDetail from './pages/TheatreDetail';
+import SeatSelection from './pages/SeatSelection';
 
 function App() {
   return (
@@ -85,6 +86,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/booking/seats"
+            element={
+              <ProtectedRoute>
+                <SeatSelection />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/seats" element={<Navigate to="/booking/seats" replace />} />
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

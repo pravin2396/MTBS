@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Film, Building2, LogOut, User, X } from 'lucide-react';
+import { LayoutDashboard, Film, Building2, Ticket, LogOut, User, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
@@ -119,6 +119,26 @@ const Sidebar = ({ isOpen, onClose }) => {
               </div>
               <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
                 Multiplex
+              </span>
+            </NavLink>
+
+            <NavLink
+              to="/booking/seats"
+              onClick={onClose}
+              className={({ isActive }) =>
+                `w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? 'bg-gradient-to-r from-rose-600 to-rose-700 text-white shadow-lg shadow-rose-600/30 font-bold'
+                    : 'text-gray-300 hover:text-white hover:bg-white/5'
+                }`
+              }
+            >
+              <div className="flex items-center gap-3">
+                <Ticket className="h-4 w-4" />
+                <span>Seat Selection</span>
+              </div>
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                Interactive
               </span>
             </NavLink>
           </div>

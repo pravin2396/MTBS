@@ -23,6 +23,7 @@ import {
   ChevronRight,
   Calendar,
   Layers,
+  Armchair,
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 
@@ -710,8 +711,17 @@ const TheatreDetail = () => {
                       className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold text-xs shadow-lg shadow-rose-600/40 transition-all cursor-pointer disabled:opacity-50"
                     >
                       <Ticket className="h-4 w-4" />
-                      <span>{isBooking ? 'Processing Reservation...' : 'Confirm Ticket Reservation'}</span>
+                      <span>{isBooking ? 'Processing Reservation...' : 'Quick Book Reservation'}</span>
                     </button>
+
+                    {/* Interactive Seat Selection Navigation */}
+                    <Link
+                      to={`/booking/seats?theatreId=${theatre.id}&movieId=${selectedShow?.movieId || '1'}&time=${encodeURIComponent(selectedTime || '05:30 PM')}`}
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-bold text-xs transition-all cursor-pointer shadow-sm hover:border-rose-500/40"
+                    >
+                      <Armchair className="h-4 w-4 text-rose-400" />
+                      <span>Select Specific Seats (Module 5)</span>
+                    </Link>
                   </div>
 
                   {/* Contact Information Card */}
