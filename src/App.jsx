@@ -14,6 +14,7 @@ import MovieDetail from './pages/MovieDetail';
 import TheatreList from './pages/TheatreList';
 import TheatreDetail from './pages/TheatreDetail';
 import SeatSelection from './pages/SeatSelection';
+import TicketBooking from './pages/TicketBooking';
 
 function App() {
   return (
@@ -86,6 +87,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/booking"
+            element={
+              <ProtectedRoute>
+                <TicketBooking />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/booking/ticket" element={<Navigate to="/booking" replace />} />
           <Route
             path="/booking/seats"
             element={

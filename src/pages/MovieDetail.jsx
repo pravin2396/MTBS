@@ -453,23 +453,21 @@ const MovieDetail = () => {
                     </div>
 
                     {/* Book Now Button */}
-                    <button
-                      type="button"
-                      disabled={isBooking}
-                      onClick={handleBookTickets}
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold text-xs shadow-lg shadow-rose-600/40 transition-all cursor-pointer disabled:opacity-50"
+                    <Link
+                      to={`/booking?movieId=${movie.id}&hall=${encodeURIComponent(selectedHall || '')}`}
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold text-xs shadow-lg shadow-rose-600/40 transition-all cursor-pointer"
                     >
                       <Ticket className="h-4 w-4" />
-                      <span>{isBooking ? 'Processing Reservation...' : 'Quick Book Without Seat Picking'}</span>
-                    </button>
+                      <span>Proceed to Ticket Booking</span>
+                    </Link>
 
                     {/* Interactive Seat Selection Navigation */}
                     <Link
                       to={`/booking/seats?movieId=${movie.id}&hall=${encodeURIComponent(selectedHall || '')}`}
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-bold text-xs transition-all cursor-pointer shadow-sm hover:border-rose-500/40"
+                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-bold text-xs transition-all cursor-pointer shadow-sm hover:border-rose-500/40"
                     >
                       <Armchair className="h-4 w-4 text-rose-400" />
-                      <span>Select Specific Seats (Module 5)</span>
+                      <span>Select Specific Seats</span>
                     </Link>
                   </div>
                 </div>

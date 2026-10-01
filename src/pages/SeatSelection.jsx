@@ -13,6 +13,9 @@ import {
   generateAuditoriumLayout,
   MAX_SEATS_LIMIT,
   SEAT_TIERS,
+  checkDuplicateBooking,
+  recordBookedSeatsForShow,
+  generateUniqueBookingId,
 } from '../data/mockSeatsData';
 import {
   ArrowLeft,
@@ -106,14 +109,33 @@ const SeatSelection = () => {
     if (selectedSeats.length === 0) return;
     setIsProcessing(true);
 
+    const showKey = `${selectedMovieId}-${selectedTheatreId}`;
+    const selectedSeatIds = selectedSeats.map((s) => s.id);
+
+    // Prevent duplicate booking
+    const { isDuplicate, conflictSeats } = checkDuplicateBooking(showKey, selectedSeatIds);
+    if (isDuplicate) {
+      setIsProcessing(false);
+      toast.error(
+        `❌ Duplicate Booking Blocked: Seat(s) ${conflictSeats.join(', ')} have already been reserved. Please choose different seats.`
+      );
+      // Refresh local grid to mark them booked
+      setSeatGrid(generateAuditoriumLayout(showKey));
+      setSelectedSeats((prev) => prev.filter((s) => !conflictSeats.includes(s.id)));
+      return;
+    }
+
     const count = selectedSeats.length;
     const subtotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
     const convenience = count * 1.5;
     const totalAmount = subtotal + convenience;
-    const bookingId = `BK-${Math.floor(1000 + Math.random() * 9000)}`;
+    const bookingId = generateUniqueBookingId();
     const seatNames = selectedSeats.map((s) => `${s.row}${s.col}`);
 
     try {
+      // Record booked seats in persistent storage
+      recordBookedSeatsForShow(showKey, selectedSeatIds);
+
       // 1. Replicate to KPI stats in localStorage
       const savedStats = localStorage.getItem(KPI_STORAGE_KEY);
       if (savedStats) {
