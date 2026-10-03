@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import ScreenCurvature from '../components/seats/ScreenCurvature';
@@ -32,6 +32,7 @@ const RECENT_BOOKINGS_KEY = 'mtbs_recent_bookings';
 
 const SeatSelection = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Extract query parameters with smart fallbacks
@@ -199,6 +200,28 @@ const SeatSelection = () => {
     } finally {
       setIsProcessing(false);
     }
+  };
+
+  // Navigate to Module 7 Payment Page with selected seats
+  const handleProceedPayment = () => {
+    if (selectedSeats.length === 0) {
+      toast.warn('Please select at least 1 seat before proceeding to payment.');
+      return;
+    }
+    const subtotal = selectedSeats.reduce((sum, seat) => sum + seat.price, 0);
+    const convenienceFee = selectedSeats.length * CONVENIENCE_FEE_PER_TICKET;
+    const grandTotal = subtotal + convenienceFee;
+
+    navigate('/payment', {
+      state: {
+        movie: currentMovie,
+        theatre: currentTheatre,
+        showtime: selectedShowtime,
+        date: selectedDate,
+        selectedSeats,
+        totalAmount: grandTotal,
+      },
+    });
   };
 
   // Group seats by row for structured rendering
@@ -429,6 +452,7 @@ const SeatSelection = () => {
                 selectedSeats={selectedSeats}
                 onDeselectSeat={handleDeselectSeat}
                 onProceedBooking={handleProceedBooking}
+                onProceedPayment={handleProceedPayment}
                 isProcessing={isProcessing}
               />
             </div>

@@ -15,6 +15,7 @@ import TheatreList from './pages/TheatreList';
 import TheatreDetail from './pages/TheatreDetail';
 import SeatSelection from './pages/SeatSelection';
 import TicketBooking from './pages/TicketBooking';
+import PaymentPage from './pages/PaymentPage';
 
 function App() {
   return (
@@ -105,6 +106,15 @@ function App() {
             }
           />
           <Route path="/seats" element={<Navigate to="/booking/seats" replace />} />
+          <Route
+            path="/payment"
+            element={
+              <ProtectedRoute>
+                <PaymentPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/checkout" element={<Navigate to="/payment" replace />} />
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

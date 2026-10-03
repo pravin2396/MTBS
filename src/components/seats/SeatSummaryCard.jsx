@@ -19,6 +19,7 @@ const SeatSummaryCard = ({
   selectedSeats,
   onDeselectSeat,
   onProceedBooking,
+  onProceedPayment,
   isProcessing,
 }) => {
   const seatCount = selectedSeats.length;
@@ -163,22 +164,33 @@ const SeatSummaryCard = ({
         </div>
       </div>
 
-      {/* Action Button */}
-      <button
-        type="button"
-        disabled={seatCount === 0 || isProcessing}
-        onClick={onProceedBooking}
-        className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold text-xs sm:text-sm shadow-xl shadow-rose-950/50 hover:shadow-rose-600/30 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
-      >
-        <CreditCard className="h-4 w-4" />
-        <span>
-          {isProcessing
-            ? 'Confirming Reservation...'
-            : seatCount === 0
-            ? 'Select Seats to Proceed'
-            : `Confirm & Book ${seatCount} Ticket${seatCount > 1 ? 's' : ''} • $${grandTotal.toFixed(2)}`}
-        </span>
-      </button>
+      {/* Action Buttons */}
+      <div className="space-y-2">
+        <button
+          type="button"
+          disabled={seatCount === 0 || isProcessing}
+          onClick={onProceedPayment || onProceedBooking}
+          className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold text-xs sm:text-sm shadow-xl shadow-rose-950/50 hover:shadow-rose-600/30 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+        >
+          <CreditCard className="h-4 w-4" />
+          <span>
+            {seatCount === 0
+              ? 'Select Seats to Proceed'
+              : `Proceed to Payment • $${grandTotal.toFixed(2)}`}
+          </span>
+        </button>
+
+        {onProceedPayment && (
+          <button
+            type="button"
+            disabled={seatCount === 0 || isProcessing}
+            onClick={onProceedBooking}
+            className="w-full flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-semibold text-gray-300 hover:text-white border border-white/10 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <span>{isProcessing ? 'Reserving...' : 'Instant Confirmation (Bypass Payment)'}</span>
+          </button>
+        )}
+      </div>
 
       {/* Safety & Guarantee Note */}
       <div className="flex items-center gap-2 text-[11px] text-gray-400 justify-center">

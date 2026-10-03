@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import ScreenCurvature from '../components/seats/ScreenCurvature';
@@ -57,6 +57,7 @@ const AVAILABLE_DATES = [
 
 const TicketBooking = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -277,6 +278,24 @@ const TicketBooking = () => {
     } finally {
       setIsProcessing(false);
     }
+  };
+
+  // Navigate to Module 7 Payment Page with booking state
+  const handleProceedToPayment = () => {
+    if (selectedSeats.length === 0) {
+      toast.warn('Please select at least 1 seat before proceeding to payment.');
+      return;
+    }
+    navigate('/payment', {
+      state: {
+        movie: selectedMovie,
+        theatre: selectedTheatre,
+        date: selectedDate,
+        showtime: selectedTime,
+        selectedSeats,
+        totalAmount,
+      },
+    });
   };
 
   // Filtered movies & theatres
@@ -921,20 +940,34 @@ const TicketBooking = () => {
                   </p>
                 </div>
 
-                {/* Booking Confirmation Action Button */}
-                <button
-                  type="button"
-                  disabled={selectedSeats.length === 0 || isProcessing}
-                  onClick={handleConfirmBooking}
-                  className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
-                >
-                  <Sparkles className="h-4 w-4 text-white group-hover:rotate-12 transition-transform" />
-                  <span>
-                    {isProcessing
-                      ? 'Validating & Reserving...'
-                      : `Confirm Booking • $${totalAmount.toFixed(2)}`}
-                  </span>
-                </button>
+                {/* Action Buttons: Proceed to Payment & Instant Pass */}
+                <div className="space-y-2 pt-1">
+                  <button
+                    type="button"
+                    disabled={selectedSeats.length === 0 || isProcessing}
+                    onClick={handleProceedToPayment}
+                    className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
+                  >
+                    <CreditCard className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
+                    <span>
+                      {selectedSeats.length === 0
+                        ? 'Select Seats to Proceed'
+                        : `Proceed to Payment • $${totalAmount.toFixed(2)}`}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={selectedSeats.length === 0 || isProcessing}
+                    onClick={handleConfirmBooking}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-semibold text-xs transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <Sparkles className="h-3.5 w-3.5 text-rose-400" />
+                    <span>
+                      {isProcessing ? 'Reserving...' : 'Instant Pass Confirmation'}
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
