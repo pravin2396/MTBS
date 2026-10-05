@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import {
   Ticket,
   Search,
@@ -85,16 +86,24 @@ const RecentBookings = ({ bookings }) => {
     <div className="rounded-2xl bg-slate-900/60 border border-white/10 p-6 backdrop-blur-md space-y-5">
       {/* Top Header & Search/Filters */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
-        <div>
-          <div className="flex items-center gap-2 text-rose-400">
-            <Ticket className="h-5 w-5" />
-            <h2 className="text-lg font-bold text-white tracking-wide">
-              Recent Bookings
-            </h2>
+        <div className="flex items-center justify-between w-full sm:w-auto">
+          <div>
+            <div className="flex items-center gap-2 text-rose-400">
+              <Ticket className="h-5 w-5" />
+              <h2 className="text-lg font-bold text-white tracking-wide">
+                Recent Bookings
+              </h2>
+            </div>
+            <p className="text-xs text-gray-400 mt-0.5">
+              Latest ticket transactions across all cinema locations
+            </p>
           </div>
-          <p className="text-xs text-gray-400 mt-0.5">
-            Latest ticket transactions across all cinema locations
-          </p>
+          <Link
+            to="/history"
+            className="sm:hidden text-xs text-rose-400 hover:text-rose-300 font-semibold"
+          >
+            All History &rarr;
+          </Link>
         </div>
 
         {/* Search & Filter pills */}
@@ -127,6 +136,14 @@ const RecentBookings = ({ bookings }) => {
               </button>
             ))}
           </div>
+
+          <Link
+            to="/history"
+            className="hidden sm:inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 font-semibold ml-1 transition-colors"
+          >
+            <span>All History</span>
+            <span>&rarr;</span>
+          </Link>
         </div>
       </div>
 

@@ -16,6 +16,7 @@ import TheatreDetail from './pages/TheatreDetail';
 import SeatSelection from './pages/SeatSelection';
 import TicketBooking from './pages/TicketBooking';
 import PaymentPage from './pages/PaymentPage';
+import BookingHistory from './pages/BookingHistory';
 
 function App() {
   return (
@@ -115,6 +116,15 @@ function App() {
             }
           />
           <Route path="/checkout" element={<Navigate to="/payment" replace />} />
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute>
+                <BookingHistory />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/bookings" element={<Navigate to="/history" replace />} />
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
