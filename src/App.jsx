@@ -17,6 +17,7 @@ import SeatSelection from './pages/SeatSelection';
 import TicketBooking from './pages/TicketBooking';
 import PaymentPage from './pages/PaymentPage';
 import BookingHistory from './pages/BookingHistory';
+import ReportsAnalytics from './pages/ReportsAnalytics';
 
 function App() {
   return (
@@ -125,6 +126,15 @@ function App() {
             }
           />
           <Route path="/bookings" element={<Navigate to="/history" replace />} />
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <ReportsAnalytics />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/reports" element={<Navigate to="/analytics" replace />} />
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
